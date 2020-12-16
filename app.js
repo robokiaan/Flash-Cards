@@ -319,6 +319,8 @@ function reset() { //when the browser loads
 	jQuery('#start-again-btn').on('click', function () {
 		hideAllScreens();
 		showGameSettingsScreen();
+		current_flash_cards_array = [];
+		main_array = [];
 	})
 
 	// listen for the users to press `Enter` key. Verify answer onces thats done.

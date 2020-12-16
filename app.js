@@ -68,6 +68,11 @@ function startGame() {//Starting Game
 				console.log(main_sum)
 				var main_answer = Number(random_number_one) - Number(random_number_two)
 				console.log(main_answer)
+			} else if (random_number_one == random_number_two) {
+				var main_sum = random_number_one + ' - ' + random_number_two
+				console.log(main_sum)
+				var main_answer = Number(random_number_one) - Number(random_number_two)
+				console.log(main_answer)
 			}
 		} else if (selected_deck_position == '2') {//If user chose Multiplication Deck
 			var main_sum = random_number_one + ' x ' + random_number_two
@@ -257,7 +262,7 @@ function showGameOverscreen() {//Show Progress Report
 		<tr>
 			<td colspan='2'>${length} Questions Chosen in Total</td>
 			<td>${total_retries} Total Retries Required in Total</td>
-			<td>${total_time} Seconds Required in Total</td>
+			<td>${total_time.toFixed(2)} Seconds Required in Total</td>
 		<tr>
 	`)
 }

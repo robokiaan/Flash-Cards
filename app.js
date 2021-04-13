@@ -119,7 +119,7 @@ function startGame() {//Starting Game
 			"question": main_sum,
 			"answer": main_answer,
 			"retries": 0,
-			"total_time_spent": 0
+			"total_time_spent": '0.00s'
 		})
 	}
 	for (var i = 0; i < current_flash_cards_array.length; i++) {
@@ -135,15 +135,27 @@ function startGame() {//Starting Game
 	interval_set = setInterval(interval, 10);
 }
 
-function verifyUserAnswer() {//Chech Answer
+function verifyUserAnswer() {//Check Answer
 	var selected_flash_card = current_flash_cards_array[random_index];
 	var user_answer = jQuery('#answer').val()
+	var current_time = String(selected_flash_card.total_time_spent).substr(0, Number(String(selected_flash_card.total_time_spent).length) - 2)
+	var x = current_time.split('.')
+	var current_one = x[0]
+	var current_two = x[1]
 	jQuery('#answer').val("");
 	console.log(user_answer)
 	console.log('verifying answer ' + selected_flash_card.answer);
-	ONE = TIME.toString().slice(0, -2);
-	TWO = TIME.toString().slice(-2);
-	RES = ONE + "." + TWO;
+	ONE = String(Number(TIME.toString().slice(0, -2)) + Number(current_one))
+	TWO = String(Number(TIME.toString().slice(-2)) + Number(current_two))
+	RES = ONE + "." + TWO
+	console.log(
+		"'" + current_time + "'",
+		"'" + current_one + "'",
+		"'" + current_two + "'",
+		"'" + ONE + "'",
+		"'" + TWO + "'",
+		"'" + RES + "'"
+	)
 	selected_flash_card.total_time_spent = RES + "s";
 	jQuery("#timer-output").text(RES);
 	TIME = 0;
@@ -169,7 +181,7 @@ function verifyUserAnswer() {//Chech Answer
 		showFlashCards()
 
 	} else {
-		console.log('Wrong Answer. Correct answer is "${selected_flash_card.answer}"')
+		console.log('Wrong Answer. Correct answer is ' + selected_flash_card.answer)
 		jQuery('#correct-answer-message').hide();
 		jQuery('#wrong-answer-message').text(`Wrong Answer. Correct answer is "${selected_flash_card.answer}"`).show();
 		jQuery('#wrong-answer-message').fadeOut(2000);
@@ -214,11 +226,11 @@ function createDeckOptionsForGameSetting() {//Show user Decks
 		var deck = decks[i];
 		var checked_attribute = ''
 		if (i == 0) {
-			checked_attribute = 'checked'
+			checked_attribute = ' checked'
 		}
 		jQuery('#deck-options').append(
 			`<div class="form-check">
-			<input class="form-check-input" type="radio" ${checked_attribute} value="${i}" name="deck-option" >
+			<input class="form-check-input" type="radio"${checked_attribute} value="${i}" name="deck-option" >
 			<label class="form-check-label" for="defaultCheck1">
 			${deck}
 			</label>

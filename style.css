@@ -13,21 +13,27 @@
 	border-radius: 75px;
 }
 
+#progress-container {
+	display: flex;
+	flex-direction: row;
+}
+
 #deck-progress {
-	text-align: right;
+	/*text-align: right;*/
 	font-size: medium;
-	position: relative;
-	bottom: 20px;
-	right: 850px;
+	/*position: relative;*/
+	/*bottom: 20px;*/
+	/*right: 850px;*/
 	font-weight: bold;
+	width: 100%;
 }
 
 #timer {
 	text-align: right;
 	font-size: medium;
-	position: relative;
-	bottom: 45px;
-	left: 40px;
+	/*position: relative;*/
+	/*bottom: 45px;*/
+	/*left: 40px;*/
 	font-weight: bold;
 }
 
@@ -90,7 +96,8 @@
 }
 
 @media only screen and (max-width: 480px) {
-	.screen-body, .screen {
+	.screen-body,
+	.screen {
 		margin: 0px;
 	}
 	#deck-progress {
@@ -106,7 +113,8 @@
 		display: none;
 		height: 0px;
 	}
-	#question, #progress-report-heading {
+	#question,
+	#progress-report-heading {
 		font-size: 20px;
 	}
 	.screen-head {

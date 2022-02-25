@@ -13,129 +13,131 @@ var main_array = [];
 jQuery(document).ready(reset);
 
 
-function startGame() {//Starting Game
-	jQuery('#game-settings').hide();
-	jQuery('#flash-card').show();
-
+function startGame() { //Starting Game
+	// fill current flash cards index bucket
 	range = jQuery('#range').val()
 	range_start = jQuery('#range_start').val()
 	length = jQuery('#length').val()
 
-	// show a greeting to the user
-	var user_name = jQuery('#username').val()
-	jQuery('#user-greeting').html('<span id="user-heading">Hello <span id="username-text">' + user_name).show();
-
-	// set the selected deck.
-	selected_deck_position = jQuery('[name="deck-option"]:checked').val(); //0,1, 2, 3
-	console.log(`Deck which is selected is found at position  ${ selected_deck_position } `)
-	selected_deck = decks[selected_deck_position]
-	console.log(selected_deck)
-
-	// fill current flash cards index bucket
 	if (Number(range) < Number(range_start)) {
 		window.alert('Please Enter Vaild Range')
-		window.location.reload()
-	}
-	var number_array = []
-	console.log(range_start + " - " + range)
-	for (var i = Number(range_start); i < Number(range); i++) {
-		number_array.push(i)
-	}
-	console.log('number', number_array)
-	for (var i = 0; i < length; i++) {
-		random_number_one_value = Math.random() * number_array.length
-		random_number_one_index = Math.floor(random_number_one_value)
-		random_number_one = number_array[random_number_one_index]
-		//Number 2
-		random_number_two_value = Math.random() * number_array.length
-		random_number_two_index = Math.floor(random_number_two_value)
-		random_number_two = number_array[random_number_two_index]
-		console.log(random_number_one)
-		console.log(random_number_two)
-		if (selected_deck_position == '0') {//If user chose Addition Deck
-			var main_sum = random_number_one + ' + ' + random_number_two
-			console.log(main_sum)
-			var main_answer = Number(random_number_one) + Number(random_number_two)
-			console.log(main_answer)
-		} else if (selected_deck_position == '1') {//If user chose Subraction Deck
-			if (random_number_one < random_number_two) {
-				var main_sum = random_number_two + ' - ' + random_number_one
-				console.log(main_sum)
-				var main_answer = Number(random_number_two) - Number(random_number_one)
-				console.log(main_answer)
-			} else if (random_number_one > random_number_two) {
-				var main_sum = random_number_one + ' - ' + random_number_two
-				console.log(main_sum)
-				var main_answer = Number(random_number_one) - Number(random_number_two)
-				console.log(main_answer)
-			} else if (random_number_one == random_number_two) {
-				var main_sum = random_number_one + ' - ' + random_number_two
-				console.log(main_sum)
-				var main_answer = Number(random_number_one) - Number(random_number_two)
-				console.log(main_answer)
-			}
-		} else if (selected_deck_position == '2') {//If user chose Multiplication Deck
-			var main_sum = random_number_one + ' x ' + random_number_two
-			console.log(main_sum)
-			var main_answer = Number(random_number_one) * Number(random_number_two)
-			console.log(main_answer)
-		} else if (selected_deck_position == '3') {//If user chose Division Deck
-			if (random_number_one < random_number_two) {
-				greater_number = random_number_one
-				lesser_number = random_number_two
-			} else if (random_number_one > random_number_two) {
-				greater_number = random_number_two
-				lesser_number = random_number_one
-			}
-			var number_one = lesser_number * greater_number
-			main_sum = number_one + '/ ' + lesser_number
-			main_answer = number_one / lesser_number
-		} else if (selected_deck_position == '4') {//If user chose LCM Deck
-			main_sum = random_number_one + ', ' + random_number_two
-			main_answer = calculate_LCM(Number(random_number_one), Number(random_number_two));
-			console.log(main_answer)
-		} else if (selected_deck_position == '5') {//If user chose HCF Deck
-			main_sum = random_number_one + ', ' + random_number_two
-			main_answer = calculate_HCF(Number(random_number_one), Number(random_number_two));
-			console.log(main_answer)
-		} else if (selected_deck_position == '6') {//If user chose Exponents Deck
-			random_number_two = Math.floor(Math.random() * 2) + 2
-			main_sum = random_number_one + '^'  + random_number_two
-			console.log(random_number_two)
-			main_answer = random_number_one ** random_number_two
-			console.log(main_answer)
-		} else if (selected_deck_position == '7') {//If user chose Square Root Deck
-			var squares_till_999 = []
-			for (c = 0; c < 31; c++) {
-				squares_till_999.push(i + 1)
-			}
-			var random = Math.floor(Math.random() * range)
-			random_number_one = squares_till_999[random]
-			console.log(squares_till_999)
-			main_answer = random_number_one
-			main_sum = 'Square Root of ' + random_number_one * random_number_one
-		}
-		current_flash_cards_array.push({
-			"question": main_sum,
-			"answer": main_answer,
-			"retries": 0,
-			"total_time_spent": '0.00s'
-		})
-	}
-	for (var i = 0; i < current_flash_cards_array.length; i++) {
-		var item = current_flash_cards_array[i]
-		main_array.push(item)
-	}
-	console.log('index array', current_flash_cards_array)
+	} else if (range < 0 || range > 999 || range_start < 1 || range_start > 999) {
+		window.alert('Please Enter Vaild Range Between 0 and 999')		
+	} else {
 
-	jQuery('#total-questions').text(length);
-	correctly_answered_questions = 0;
-	jQuery('#correctly-answered-questions').text(correctly_answered_questions)
-	showFlashCards()
-	interval_set = setInterval(interval, 10);
+		jQuery('#game-settings').hide();
+		jQuery('#flash-card').show();
+	
+		// show a greeting to the user
+		var user_name = jQuery('#username').val()
+		jQuery('#user-greeting').html('<span id="user-heading">Hello <span id="username-text">' + user_name).show();
+	
+		// set the selected deck.
+		selected_deck_position = jQuery('[name="deck-option"]:checked').val(); //0,1, 2, 3
+		console.log(`Deck which is selected is found at position  ${ selected_deck_position } `)
+		selected_deck = decks[selected_deck_position]
+		console.log(selected_deck)
+		var number_array = []
+		console.log(range_start + " - " + range)
+		for (var i = Number(range_start); i < Number(range); i++) {
+			number_array.push(i)
+		}
+		console.log('number', number_array)
+		for (var i = 0; i < length; i++) {
+			random_number_one_value = Math.random() * number_array.length
+			random_number_one_index = Math.floor(random_number_one_value)
+			random_number_one = number_array[random_number_one_index]
+			//Number 2
+			random_number_two_value = Math.random() * number_array.length
+			random_number_two_index = Math.floor(random_number_two_value)
+			random_number_two = number_array[random_number_two_index]
+			console.log(random_number_one)
+			console.log(random_number_two)
+			if (selected_deck_position == '0') { //If user chose Addition Deck
+				var main_sum = random_number_one + ' + ' + random_number_two
+				console.log(main_sum)
+				var main_answer = Number(random_number_one) + Number(random_number_two)
+				console.log(main_answer)
+			} else if (selected_deck_position == '1') { //If user chose Subraction Deck
+				if (random_number_one < random_number_two) {
+					var main_sum = random_number_two + ' - ' + random_number_one
+					console.log(main_sum)
+					var main_answer = Number(random_number_two) - Number(random_number_one)
+					console.log(main_answer)
+				} else if (random_number_one > random_number_two) {
+					var main_sum = random_number_one + ' - ' + random_number_two
+					console.log(main_sum)
+					var main_answer = Number(random_number_one) - Number(random_number_two)
+					console.log(main_answer)
+				} else if (random_number_one == random_number_two) {
+					var main_sum = random_number_one + ' - ' + random_number_two
+					console.log(main_sum)
+					var main_answer = Number(random_number_one) - Number(random_number_two)
+					console.log(main_answer)
+				}
+			} else if (selected_deck_position == '2') { //If user chose Multiplication Deck
+				var main_sum = random_number_one + ' x ' + random_number_two
+				console.log(main_sum)
+				var main_answer = Number(random_number_one) * Number(random_number_two)
+				console.log(main_answer)
+			} else if (selected_deck_position == '3') { //If user chose Division Deck
+				if (random_number_one < random_number_two) {
+					greater_number = random_number_one
+					lesser_number = random_number_two
+				} else if (random_number_one > random_number_two) {
+					greater_number = random_number_two
+					lesser_number = random_number_one
+				}
+				var number_one = lesser_number * greater_number
+				main_sum = number_one + '/ ' + lesser_number
+				main_answer = number_one / lesser_number
+			} else if (selected_deck_position == '4') { //If user chose LCM Deck
+				main_sum = random_number_one + ', ' + random_number_two
+				main_answer = calculate_LCM(Number(random_number_one), Number(random_number_two));
+				console.log(main_answer)
+			} else if (selected_deck_position == '5') { //If user chose HCF Deck
+				main_sum = random_number_one + ', ' + random_number_two
+				main_answer = calculate_HCF(Number(random_number_one), Number(random_number_two));
+				console.log(main_answer)
+			} else if (selected_deck_position == '6') { //If user chose Exponents Deck
+				random_number_two = Math.floor(Math.random() * 2) + 2
+				main_sum = random_number_one + '^' + random_number_two
+				console.log(random_number_two)
+				main_answer = random_number_one ** random_number_two
+				console.log(main_answer)
+			} else if (selected_deck_position == '7') { //If user chose Square Root Deck
+				var squares_till_999 = []
+				for (c = 0; c < 31; c++) {
+					squares_till_999.push(i + 1)
+				}
+				var random = Math.floor(Math.random() * range)
+				random_number_one = squares_till_999[random]
+				console.log(squares_till_999)
+				main_answer = random_number_one
+				main_sum = 'Square Root of ' + random_number_one * random_number_one
+			}
+			current_flash_cards_array.push({
+				"question": main_sum,
+				"answer": main_answer,
+				"retries": 0,
+				"total_time_spent": '0.00s'
+			})
+		}
+		for (var i = 0; i < current_flash_cards_array.length; i++) {
+			var item = current_flash_cards_array[i]
+			main_array.push(item)
+		}
+		console.log('index array', current_flash_cards_array)
+
+		jQuery('#total-questions').text(length);
+		correctly_answered_questions = 0;
+		jQuery('#correctly-answered-questions').text(correctly_answered_questions)
+		showFlashCards()
+		interval_set = setInterval(interval, 10);
+	}
 }
 
-function verifyUserAnswer() {//Check Answer
+function verifyUserAnswer() { //Check Answer
 	var selected_flash_card = current_flash_cards_array[random_index];
 	var user_answer = jQuery('#answer').val()
 	var current_time = String(selected_flash_card.total_time_spent).substr(0, Number(String(selected_flash_card.total_time_spent).length) - 2)
@@ -194,7 +196,7 @@ function verifyUserAnswer() {//Check Answer
 	}
 }
 
-function showFlashCards() {//Show random questions
+function showFlashCards() { //Show random questions
 	console.log(`index array length ${current_flash_cards_array.length}`)
 	if (current_flash_cards_array.length != 0) {
 		console.log("bucket is not empty.selecting a random index ")
@@ -212,16 +214,16 @@ function showFlashCards() {//Show random questions
 	}
 }
 
-function hideAllScreens() {//Hide all screens
+function hideAllScreens() { //Hide all screens
 	jQuery('.screen').hide()
 }
 
-function showGameSettingsScreen() {//Show Settings Screen
+function showGameSettingsScreen() { //Show Settings Screen
 	jQuery('#game-settings').show();
 	reset
 }
 
-function createDeckOptionsForGameSetting() {//Show user Decks
+function createDeckOptionsForGameSetting() { //Show user Decks
 	for (var i = 0; i < decks.length; i++) {
 		var deck = decks[i];
 		var checked_attribute = ''
@@ -239,7 +241,7 @@ function createDeckOptionsForGameSetting() {//Show user Decks
 	}
 }
 
-function showGameOverscreen() {//Show Progress Report
+function showGameOverscreen() { //Show Progress Report
 
 	jQuery('#flash-card').hide()
 	jQuery('#game-over').show()
@@ -279,7 +281,7 @@ function showGameOverscreen() {//Show Progress Report
 	`)
 }
 
-function interval() {//Set Interval
+function interval() { //Set Interval
 	TIME = TIME + 1;
 	ONE = TIME.toString().slice(0, -2);
 	TWO = TIME.toString().slice(-2);
@@ -287,7 +289,7 @@ function interval() {//Set Interval
 	jQuery("#timer-output").text(RES);
 }
 
-function shuffle(array) {//Shuffle and array
+function shuffle(array) { //Shuffle and array
 	var i = 0,
 		j = 0,
 		temp = null
@@ -360,7 +362,7 @@ function reset() { //when the browser loads
 	});
 }
 
-function calculate_LCM(number_1, number_2) {//Return The LCM of two numbes
+function calculate_LCM(number_1, number_2) { //Return The LCM of two numbes
 	var greater_number, lesser_number = 0;
 	var array_1 = [];
 	var array_2 = [];
@@ -409,7 +411,7 @@ function calculate_LCM(number_1, number_2) {//Return The LCM of two numbes
 	return Number(LCM)
 }
 
-function calculate_HCF(number_1, number_2) {//Return The HCF of two numbes
+function calculate_HCF(number_1, number_2) { //Return The HCF of two numbes
 	var prime_numbers_array = [
 		2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997
 	]
@@ -437,8 +439,7 @@ function calculate_HCF(number_1, number_2) {//Return The HCF of two numbes
 				item_1_HCF = Number(string_calculation)
 			}
 		}
-		if (item_1_HCF == 'includes' || item_1_HCF == Infinity) {
-		} else {
+		if (item_1_HCF == 'includes' || item_1_HCF == Infinity) {} else {
 			array_1.push(item_1_HCF)
 		}
 	}
@@ -452,8 +453,7 @@ function calculate_HCF(number_1, number_2) {//Return The HCF of two numbes
 				item_2_HCF = Number(string_calculation)
 			}
 		}
-		if (item_2_HCF == 'includes' || item_2_HCF == Infinity) {
-		} else {
+		if (item_2_HCF == 'includes' || item_2_HCF == Infinity) {} else {
 			array_2.push(item_2_HCF)
 		}
 	}
@@ -475,7 +475,7 @@ function calculate_HCF(number_1, number_2) {//Return The HCF of two numbes
 	return Number(HCF)
 }
 
-function reset_username() {//Reset Usrename
+function reset_username() { //Reset Usrename
 	var user_name = jQuery('#username').val();
 	localStorage.setItem('flash_cards_user_name', user_name);
 }
